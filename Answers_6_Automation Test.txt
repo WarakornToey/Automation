@@ -1,0 +1,29 @@
+*** Settings ***
+Library    SeleniumLibrary
+Suite Setup     Open Browser    http://the-internet.herokuapp.com/login    Chrome
+Test Teardown   Go To  http://the-internet.herokuapp.com/login
+Suite Teardown  Close Browser
+
+*** Test Cases ***
+Searching "robot" on Login Page, the search result should contain Login Page
+
+    Input Text    //*[@id="username"]    tomsmith
+    Input Text    //*[@id="password"]    SuperSecretPassword!
+    Press Keys    //*[@id="login"]/button/i    ENTER
+    sleep    5s
+
+Searching "robot" on Login Page, the search result should contain Your password is invalid!
+
+    sleep    5s
+    Input Text    //*[@id="username"]    tomsmith
+    Input Text    //*[@id="password"]    Password!
+    Press Keys    //*[@id="login"]/button/i    ENTER
+    Page Should Contain Link    http://the-internet.herokuapp.com/login
+
+Searching "robot" on Login Page, the search result should contain Your username is invalid!
+
+    sleep    5s
+    Input Text    //*[@id="username"]    tomholland
+    Input Text    //*[@id="password"]    Password!
+    Press Keys    //*[@id="login"]/button/i    ENTER
+    Page Should Contain Link    http://the-internet.herokuapp.com/login
